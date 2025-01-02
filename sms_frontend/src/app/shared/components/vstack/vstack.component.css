@@ -1,0 +1,7 @@
+.flex-container {
+    display: flex;            /* Replaces fxLayout */
+    flex-direction: column;   /* Replaces fxLayout="column" */
+    align-items: center;      /* Replaces fxLayoutAlign="center {{ align }}" */
+    justify-content: var(--align, flex-start); /* Placeholder for dynamic `align` value */
+  }
+  

@@ -1,0 +1,48 @@
+<info-background title="Progress Monitor">
+  <form [formGroup]="progressForm" (ngSubmit)="submitForm()" class="form-container">
+    <div class="form-group">
+      <label for="updates_every">Updates Every:</label>
+      <div class="input-seconds">
+        <input
+          id="updates_every"
+          formControlName="updates_every"
+          placeholder="Time in seconds"
+          type="number"
+          step="0.1"
+          class="form-control"
+        />
+        <span class="seconds-symbol">sec</span>
+      </div>
+    </div>
+    <button class="submit-button" type="submit">save</button>
+  </form>
+
+  <hstack>
+    <vstack style="width: 50%; padding: 30px; min-width: 60px;">
+        <typography variant="info-value" [content]="progressData?.msgs_sent?.toString() || '—'" additionalStyles="fontSize: 20px"/>
+        <typography variant="info-subtitle" content="Messages Sent" />
+      </vstack>
+    
+      <divider style="height: 100px;" />
+    
+      <vstack style="width: 50%; padding: 30px; min-width: 60px;">
+        <typography variant="info-value" [content]="progressData?.msgs_failed?.toString() || '—'" additionalStyles="fontSize: 20px"/>
+        <typography variant="info-subtitle" content="Messages Failed" />
+      </vstack>
+    
+      <divider style="height: 100px;" />
+    
+      <vstack style="width: 50%; padding: 30px; min-width: 60px;">
+        <typography variant="info-value" [content]="failurePercent.toFixed(2).toString() + ' %'" additionalStyles="fontSize: 20px;"/>
+        <typography variant="info-subtitle" content="Failure Percent" />
+      </vstack>
+    
+      <divider style="height: 100px;" />
+    
+      <vstack style="width: 50%; padding: 30px; min-width: 60px;">
+        <typography variant="info-value" [content]="progressData?.avg_wait_time?.toString() || '—'" additionalStyles="fontSize: 20px"/>
+        <typography variant="info-subtitle" content="Avg. Wait Time" />
+      </vstack>
+  </hstack>
+
+</info-background>

@@ -1,0 +1,69 @@
+<info-background title="System Config">
+    <form [formGroup]="updateConfigForm" (ngSubmit)="onSubmit()" class="form-container">
+      <fieldset class="fieldset" [disabled]="isSubmitting">
+  
+        <div class="form-group">
+          <label class="label" for="num_senders">Senders To Use:</label>
+          <input
+            id="num_senders"
+            formControlName="num_senders"
+            placeholder="Number of Senders"
+            type="number"
+            class="form-control"
+          />
+        </div>
+  
+        <div class="form-group">
+          <label  class="label" for="failure_percent">Send Failure Rate:</label>
+          <div class="input-percent">
+            <input
+              id="failure_percent"
+              formControlName="failure_percent"
+              placeholder="Failure Percentage"
+              type="number"
+              step="0.01"
+              class="form-control"
+            />
+            <span class="percent-symbol">%</span>
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label class="label" for="avg_wait_time">Mean Wait Time:</label>
+          <div class="input-seconds">
+            <input
+              id="avg_wait_time"
+              formControlName="avg_wait_time"
+              placeholder="Average Wait Time"
+              type="number"
+              step="0.01"
+              class="form-control"
+            />
+            <span class="seconds-symbol">sec</span>
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label class="label" for="std_dev_wait_time">Std Dev Wait Time:</label>
+          <div class="input-seconds">
+            <input
+              id="std_dev_wait_time"
+              formControlName="std_dev_wait_time"
+              placeholder="Std Deviation of Wait Time"
+              type="number"
+              step="0.01"
+              class="form-control"
+            />
+            <span class="seconds-symbol">sec</span>
+          </div>
+        </div>
+      </fieldset>
+  
+      <div class="button-container">
+        <button class="submit-button" [disabled]="!updateConfigForm.valid" type="submit">
+          Submit
+        </button>
+      </div>
+    </form>
+  </info-background>
+  

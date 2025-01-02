@@ -1,0 +1,87 @@
+/* Import global style files */
+@import 'styles/roboto.scss';
+@import 'styles/material-icons.scss';
+
+/* Ensure html and body occupy full height for full-screen components */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #101010;
+  font-family: 'Roboto', sans-serif; /* Use imported Roboto font */
+}
+
+/* Hide scrollbars across browsers */
+::-webkit-scrollbar {
+  display: none; /* WebKit (Chrome, Safari) */
+}
+* {
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Dialog Customizations */
+.mat-mdc-dialog-container {
+  --mdc-dialog-container-color: transparent !important; /* Transparent container */
+}
+
+/* PrimeNG Dialog Header */
+.p-dialog-header {
+  background-color: #262626 !important;
+  color: white !important;
+  border-radius: 20px 20px 0px 0px !important;
+}
+
+/* PrimeNG Dialog Content */
+.p-dialog-content {
+  background-color: #262626 !important;
+  color: white !important;
+  border-radius: 0px 0px 20px 20px !important;
+}
+
+/* PrimeNG Sidebar */
+.p-sidebar {
+  background-color: #ef4345 !important;
+  color: white !important;
+  width: 200px !important; /* Set a fixed width */
+  max-width: 80%; /* Ensure responsiveness on smaller screens */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .p-sidebar {
+    width: 100% !important; /* Full width for mobile */
+  }
+}
+
+/* Default Angular Material Button Style */
+.mat-mdc-button {
+  background-color: #262626 !important; /* Match dialog background */
+  color: white !important;
+}
+
+/* Add a global container for flex-based layouts */
+.fullscreen-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  background-color: #101010;
+}
+
+/* Utility Class for Hidden Elements */
+.hidden {
+  display: none !important;
+}
+
+/* Utility Class for Centered Content */
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

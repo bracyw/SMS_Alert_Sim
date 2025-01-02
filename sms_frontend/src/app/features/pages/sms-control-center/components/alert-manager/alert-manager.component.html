@@ -1,0 +1,33 @@
+<info-background title="Alert Manager">
+  <form [formGroup]="sendStartReuestForm" (ngSubmit)="submitForm()" class="form-container">
+    <fieldset class="fieldset" [disabled]="isSubmitting">
+      <div class="form-group">
+        <label class="label" for="opt_message">Optional Message:</label>
+        <input
+          id="opt_message"
+          formControlName="opt_message"
+          placeholder="Optional Message"
+          type="text"
+          class="form-control"
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="label" for="num_messages_to_send">Number To Send:</label>
+        <input
+          id="num_messages_to_send"
+          formControlName="num_messages_to_send"
+          placeholder="Number of Messages to Send"
+          type="number"
+          class="form-control"
+        />
+      </div>
+    </fieldset>
+
+    <div class="button-container">
+      <button class="submit-button" [disabled]="!sendStartReuestForm.valid" type="submit">
+        Submit
+      </button>
+    </div>
+  </form>
+</info-background>

@@ -1,0 +1,34 @@
+.alert-history-body {
+    height: 90%;
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    overflow-y: auto;
+  }
+
+  .update-button {
+  background-color: #007bff; /* Primary blue color */
+  color: #fff; /* White text color */
+  border: none; /* Remove default border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px 20px; /* Spacing inside the button */
+  font-size: 16px; /* Text size */
+  font-weight: bold; /* Bold text */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effect */
+}
+
+.update-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: scale(1.05); /* Slightly larger on hover */
+}
+
+.update-button:active {
+  background-color: #004085; /* Even darker blue when clicked */
+  transform: scale(0.95); /* Slightly smaller on click */
+}
+
+.update-button:disabled {
+  background-color: #cccccc; /* Gray for disabled state */
+  cursor: not-allowed; /* Not-allowed cursor */
+}

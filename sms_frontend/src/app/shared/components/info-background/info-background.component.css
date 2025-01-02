@@ -1,0 +1,25 @@
+mat-icon {
+  color: white;
+  margin-right: 12px;
+}
+
+.container {
+  display: inline-block;
+  padding: 12px;
+  border-radius: 8px;
+  height: 100%;
+  width: 100%;
+}
+
+.title-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

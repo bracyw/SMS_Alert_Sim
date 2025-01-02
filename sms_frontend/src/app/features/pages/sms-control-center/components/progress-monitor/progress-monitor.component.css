@@ -1,0 +1,93 @@
+.form-container {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    padding: 24px;
+    background-color: #2e2e2e;
+    border-radius: 8px;
+    align-items: flex-end; /* Ensures the button is aligned to the right */
+  }
+  
+  .form-group {
+    display: flex;
+    align-items: left;
+    justify-content: space-between;
+    align-content: center;
+    gap: 16px;
+    width: 100%; /* Ensures consistent alignment */
+    height: 50px; /* Ensures the row is of uniform height */
+  }
+  
+  label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #e0e0e0;
+    flex-basis: 30%; /* Label takes up 30% of the row width */
+    text-align: right;
+    height: 100%; /* Matches the row height */
+    min-width: 110px; /* Ensures consistent label width */
+    display: flex;
+    align-items: center; /* Vertically aligns text in label */
+  }
+  
+  .input-seconds {
+    display: flex;
+    align-items: center;
+    position: relative;
+    flex-basis: 70%; /* Matches input field width */
+    height: 100%; /* Matches row height */
+  }
+  
+  .input-seconds .form-control {
+    flex: 1; /* Allows input fields to take up remaining space */
+    padding-right: 30px; /* Space for appended symbol */
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #444;
+    background-color: #2e2e2e;
+    color: #e0e0e0;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s ease-in-out;
+    height: 100%; /* Ensures uniform height with label */
+    box-sizing: border-box; /* Includes padding and border in height calculation */
+  }
+  
+  .input-seconds .form-control:focus {
+    border-color: #4caf50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+  }
+  
+  .seconds-symbol {
+    position: absolute;
+    right: 10px; /* Aligns the "sec" label to the right edge of the input field */
+    font-size: 1rem;
+    color: #ccc;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    pointer-events: none; /* Prevents interaction with the symbol */
+  }
+  
+  .submit-button {
+    padding: 12px 16px;
+    margin: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: #ae4545;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .submit-button:hover {
+    background-color: #aa0000;
+  }
+  
+  .submit-button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+  }
+  

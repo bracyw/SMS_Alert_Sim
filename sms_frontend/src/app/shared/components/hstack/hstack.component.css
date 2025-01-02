@@ -1,0 +1,7 @@
+.flex-row {
+    display: flex;             /* Replaces fxLayout="row" */
+    flex-direction: row;       /* Ensures row layout */
+    align-items: center;       /* Default vertical alignment */
+    height: 100%;              /* Preserves inline height style */
+  }
+  
