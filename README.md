@@ -24,7 +24,7 @@ Then you will be able to go your localhost:4200 and play around with the minimal
 
 Testing for the backend is relatively extensive, covering everything used by the routes but not the routes and their handlers themselves. Instead Postman is used for testing routes. Any additional routes should be tested using Postman.
 
-to run the backend tests simply run:  
+to run the backend tests simply run WHILE THE DATABASE IS RUNNING (we don't actually care about storing historical data long term so there is no need for a seperate database for testing):  
 `cd sms_backend; cargo test`
 
 Frontend testing... is pretty much non-existent. There is a minimal feature set currently and I would like to expand it more before setting any tests in stone (also just ran out of time).  
