@@ -33,7 +33,7 @@
       <divider style="height: 100px;" />
     
       <vstack style="width: 50%; padding: 30px; min-width: 60px;">
-        <typography variant="info-value" [content]="failurePercent.toFixed(2).toString() + ' %'" additionalStyles="fontSize: 20px;"/>
+        <typography variant="info-value" [content]="getfailurePercent().toFixed(2).toString() + ' %'" additionalStyles="fontSize: 20px;"/>
         <typography variant="info-subtitle" content="Failure Percent" />
       </vstack>
     

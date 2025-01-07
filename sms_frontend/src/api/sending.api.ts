@@ -1,3 +1,4 @@
+import { SendCreateBody } from 'src/app/shared/types/api/send/send-create-body.type';
 import { urls } from './urls';
 
 /**
@@ -14,13 +15,4 @@ export const postSendCreate = (body: SendCreateBody): Promise<Response> => {
     },
     body: JSON.stringify(body),
   });
-};
-
-
-/**
- * Type to represent the body of a send creation post request.
- */
-export type SendCreateBody = {
-    msg: string | null,
-    num_msgs: number,
 };

@@ -3,15 +3,8 @@ import { getAllHistoryData } from 'src/api/history.api';
 import { VStackComponent } from 'src/app/shared/components/vstack/vstack.component';
 import { TypographyComponent } from 'src/app/shared/components/typography/typography.component';
 import { InfoBackgroundComponent } from 'src/app/shared/components/info-background/info-background.component';
-
-
-export interface AlertHistory {
-  message: string | null;
-  send_amount_requested: number;
-  messages_sent: number;
-  messages_failed: number;
-  total_time_to_send: number;
-}
+import { Alert } from 'src/app/shared/types/api/recieve/alert.type';
+import { ApiService } from 'src/app/shared/services/api.service';
 
 @Component({
   selector: 'app-alert-history',
@@ -20,28 +13,34 @@ export interface AlertHistory {
   styleUrl: './alert-history.component.css',
   standalone: true,
 })
+
+/**
+ * Component for displaying the alert over all time for the current user 
+ * (TODO: currently there is only one user in the system, there will be auth added).
+ */
 export class AlertHistoryComponent implements OnInit {
-  alertHistory: AlertHistory[] = [];
+  alertHistory: Alert[] = [];
 
   constructor() {
-    this.getAlertHistory();
+    this.updateAlertHistory();
   }
   ngOnInit(): void {
-    this.getAlertHistory();
+    this.updateAlertHistory();
   }
 
-
-
-  async getAlertHistory(): Promise<void> {
-      await getAllHistoryData().then(async (response) => {
-        if (response.ok) {
-          this.alertHistory = await response.json();
-          console.log(this.alertHistory);
-        }
-      });
-
-      console.log(this.alertHistory);
+  /**
+   * Updates the alert history that will be displayed.
+   * 
+   * @returns void
+   */
+  async updateAlertHistory(): Promise<void> {
+    const result = await ApiService.getAlertHistory();
+    if (result instanceof Error) {
+      console.error(result);
+    } else {
+      this.alertHistory = result;
     }
+  }
   
 }
 

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BroadcastManagerComponent } from './alert-manager.component';
+import { AlertManagerComponent } from './alert-manager.component';
 
 describe('BroadcastManagerComponent', () => {
-  let component: BroadcastManagerComponent;
-  let fixture: ComponentFixture<BroadcastManagerComponent>;
+  let component: AlertManagerComponent;
+  let fixture: ComponentFixture<AlertManagerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BroadcastManagerComponent]
+      imports: [AlertManagerComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(BroadcastManagerComponent);
+    fixture = TestBed.createComponent(AlertManagerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

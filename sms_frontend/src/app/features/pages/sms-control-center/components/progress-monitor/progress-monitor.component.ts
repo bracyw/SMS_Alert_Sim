@@ -8,6 +8,9 @@ import { TypographyComponent } from 'src/app/shared/components/typography/typogr
 import { VStackComponent } from 'src/app/shared/components/vstack/vstack.component';
 import { DividerComponent } from 'src/app/shared/components/divider/divider';
 import { getProgressData } from 'src/api/progress.api';
+import { ProgressData } from 'src/app/shared/types/api/recieve/progress-data.type';
+import { ApiService } from 'src/app/shared/services/api.service';
+import { getPercent } from 'src/app/shared/utils/math.utils';
 
 
 @Component({
@@ -24,14 +27,16 @@ import { getProgressData } from 'src/api/progress.api';
   styleUrls: ['./progress-monitor.component.css'],
   standalone: true,
 })
-export class ProgressMonitorComponent implements OnInit {
-  updated_every = 5;
 
-  ngOnInit(): void {
-    // try to poll immediately
-    this.pollProgress();
-    this.updateLoop();
-  }
+/**
+ * Component for used for displaying info about system health and alert info during this uptime.
+ */
+export class ProgressMonitorComponent implements OnInit {
+
+  updated_every = 5;  // The number of seconds to wait before updating the progress data
+  progressData: ProgressData | null = null; // the progress data to display
+  isSubmitting = false;  // whether the form is currently submitting
+  private intervalId: any;  // the id of the interval that updates the progress data
   progressForm = new FormGroup({
     updates_every: new FormControl<number>(5, {
       validators: [Validators.required, Validators.min(1)],
@@ -39,31 +44,38 @@ export class ProgressMonitorComponent implements OnInit {
     }),
   });
 
-  private intervalId: any;
-  progressData: { msgs_sent: number; msgs_failed: number; avg_wait_time: number } | null = null;
-  isSubmitting = false;
+  async ngOnInit(): Promise<void> {
+    // try to poll immediately
+    this.progressData = await ApiService.pollProgress();
+    this.updateLoop();
+  }
 
-  get failurePercent(): number {
+  /**
+   * Calculates the failure percentage of the messages were requested to be sent.
+   * 
+   * @returns the percentage of messages that failed to send (as a whole number)
+   */
+  getfailurePercent(): number {
     if (!this.progressData) return 0;
     const total = this.progressData.msgs_sent + this.progressData.msgs_failed;
-    return total === 0 ? 0 : (this.progressData.msgs_failed / total) * 100;
+    return getPercent(this.progressData.msgs_failed, total);
   }
 
+  /**
+   * Updates the progress data every `updated_every` seconds.
+   */
   async updateLoop(): Promise<void> {
-    if (this.intervalId) clearInterval(this.intervalId);
-      this.intervalId = setInterval(() => {
-        this.pollProgress();
-      }, this.updated_every * 1000);
+    if (this.intervalId) {
+      clearInterval(this.intervalId)
+    }
+    this.intervalId = setInterval(async () => {
+      this.progressData = await ApiService.pollProgress();
+    }, this.updated_every * 1000);
   }
 
-  async pollProgress(): Promise<void> {
-    await getProgressData().then(async (response) => {
-      if (response.ok) {
-        this.progressData = await response.json();
-      }
-    });
-  }
-
+  /**
+   * Called when user submits a the form to change the update interval.
+   */
   submitForm(): void {
     if (this.progressForm.valid) {
       this.isSubmitting = true;

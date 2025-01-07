@@ -1,4 +1,4 @@
-use axum::{http, Router};
+use axum::Router;
 use dotenvy;
 use sea_orm::{Database, DatabaseConnection};
 use tokio::net::TcpListener;

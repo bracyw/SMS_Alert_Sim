@@ -3,23 +3,19 @@
         <vstack style="width: 100%;">
             <div style="height: 10px"></div>
             @for (alertSent of alertHistory; track alertSent;) {
-                <div
-          [style.background-color]="'#4d453c'"
-          style="width: 100%; border-radius: 2px;" >
-                <div style="display: flex; flex-direction: row; justify-content: space-between; height: 40px; padding: 10px">
-                    <typography
-                    variant="info-subtitle"
-                    [content]="'failure rate: ' + ((alertSent.messages_failed ===  0) ?  0 : (alertSent.send_amount_requested / alertSent.messages_failed)).toFixed(0).toString() + '%'"
-                    style="align-self: center"
-                  ></typography>
-                                      <typography
-                      variant="info-subtitle"
-                      [content]="'send amount request: ' + alertSent.send_amount_requested.toString()"
-                      additionalStyles="font-weight: bold;"
-                      style="align-self: center; padding-left: 5px"
-                    />
-                    <typography variant="info-subtitle" [content]="'total time to send:  ' + alertSent.total_time_to_send.toString()" style="align-self: center" />
-                </div>
+                <div style="width: 100%; border-radius: 2px; background-color: #4d453c" >
+                    <div style="display: flex; flex-direction: row; justify-content: space-between; height: 40px; padding: 10px">
+                        <typography
+                        variant="info-subtitle"
+                        [content]="'failure rate: ' + ((alertSent.messages_failed ===  0) ?  0 : (alertSent.send_amount_requested / alertSent.messages_failed)).toFixed(0).toString() + '%'"
+                        style="align-self: center" />
+                        <typography
+                        variant="info-subtitle"
+                        [content]="'send amount request: ' + alertSent.send_amount_requested.toString()"
+                        additionalStyles="font-weight: bold;"
+                        style="align-self: center; padding-left: 5px" />
+                        <typography variant="info-subtitle" [content]="'total time to send:  ' + alertSent.total_time_to_send.toString()" style="align-self: center" />
+                    </div>
                 </div>  
             }
         </vstack>

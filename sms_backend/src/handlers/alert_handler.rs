@@ -5,7 +5,6 @@ use entity::alert::Entity as AlertEntity;
 use sea_orm::{DatabaseConnection, EntityTrait};
 use serde::Deserialize;
 use sea_orm::ActiveValue;
-use tracing_subscriber::field::debug;
 use crate::models::alert_models::Alert;
 use crate::services::alert_services;
 use crate::structures::sender_service::SenderService;

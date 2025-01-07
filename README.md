@@ -27,15 +27,10 @@ Testing for the backend is relatively extensive, covering everything used by the
 to run the backend tests simply run:  
 `cd sms_backend; cargo test`
 
-Frontend testing... is pretty much non-existent. There is a minimal feature set currently and I would like to expand it more before setting any tests in stone (also just ran out of time).  
+Testing for the frontend ensures that components compile and api services are working. More testing is certainly needed however this confirms basic functionality, at this early stage.
 
-##### Postman Routes and payloads used for testing
-
-Routes that aren't available via frontend UI:  
-
-http://localhost:4201/progress-monitor/reset ... POST (no body)
-
-pretty much everything else is available via frontend UI (as far as visualizing the info)
+Frontend tests can be run with:
+`ng test`  (requires angular 18+)
 
 ### Design Overview
 

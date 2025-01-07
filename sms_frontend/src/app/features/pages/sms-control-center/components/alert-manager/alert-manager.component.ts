@@ -5,11 +5,12 @@ import {
   FormControl,
   ReactiveFormsModule,
 } from "@angular/forms";
-import { postSendCreate, SendCreateBody } from 'src/api/sending.api';
 import { InfoBackgroundComponent } from 'src/app/shared/components/info-background/info-background.component';
+import { ApiService } from 'src/app/shared/services/api.service';
 
-
-
+/**
+ * Interface for the send request form.
+ */
 interface SendRequestForm {
   opt_message: FormControl<string | null>;
   num_messages_to_send: FormControl<number>;
@@ -25,7 +26,10 @@ interface SendRequestForm {
 })
 
 
-export class BroadcastManagerComponent implements OnInit {
+/**
+ * Component for managing the broadcast of alerts.
+ */ 
+export class AlertManagerComponent implements OnInit {
   errors: { message: string } = { message: "" };
   isSubmitting = false;
   sendStartReuestForm: FormGroup<SendRequestForm>;
@@ -44,29 +48,18 @@ export class BroadcastManagerComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  /** Called for submitting send request form
+   * 
+   * @returns void
+   */ 
   submitForm(): void {
     this.isSubmitting = true;
 
     if (this.sendStartReuestForm.valid) {
-      // Handle form submission
-      const sendCreateBody: SendCreateBody = {
-        msg: this.sendStartReuestForm.value.opt_message as null,
-        num_msgs: this.sendStartReuestForm.value.num_messages_to_send as number,
-      };
-
-      postSendCreate(sendCreateBody).then((response) => {
-        if (response.ok) {
-          this.isSubmitting = false;
-          // Handle success
-          
-        } else {
-          this.isSubmitting = false;
-          // Handle server errors
-        }
-      });
+      ApiService.createAlert(this.submitForm.arguments.opt_message, this.submitForm.arguments.num_messages_to_send);
+      this.isSubmitting = false;
     } else {
       this.isSubmitting = false;
-      // Handle form errors
     }
   }
 }
