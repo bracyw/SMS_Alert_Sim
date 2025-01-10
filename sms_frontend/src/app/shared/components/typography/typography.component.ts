@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import Theme from 'src/app/shared/utils/theme.utils';
-import { StyleVariant } from 'src/app/shared/utils/enums/style-variant';
+import { StyleVariant } from 'src/app/shared/utils/enums/style-variant.enum';
 
 @Component({
   selector: 'typography',

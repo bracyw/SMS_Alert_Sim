@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { getAllHistoryData } from 'src/api/history.api';
 import { VStackComponent } from 'src/app/shared/components/vstack/vstack.component';
 import { TypographyComponent } from 'src/app/shared/components/typography/typography.component';
 import { InfoBackgroundComponent } from 'src/app/shared/components/info-background/info-background.component';
-import { Alert } from 'src/app/shared/types/api/recieve/alert.type';
+import { Alert } from 'src/app/shared/utils/api/types/recieve/alert.type';
 import { ApiService } from 'src/app/shared/services/api.service';
+import { interval } from 'rxjs';
+import { HistoricalAlertCardComponent } from './components/historical-alert-card/historical-alert-card.component';
+
 
 @Component({
   selector: 'app-alert-history',
-  imports: [VStackComponent, TypographyComponent, InfoBackgroundComponent],
+  imports: [VStackComponent, InfoBackgroundComponent, HistoricalAlertCardComponent],
   templateUrl: './alert-history.component.html',
   styleUrl: './alert-history.component.css',
   standalone: true,
@@ -25,7 +27,9 @@ export class AlertHistoryComponent implements OnInit {
     this.updateAlertHistory();
   }
   ngOnInit(): void {
-    this.updateAlertHistory();
+    interval(5000).subscribe(() => {
+      this.updateAlertHistory();
+    });
   }
 
   /**

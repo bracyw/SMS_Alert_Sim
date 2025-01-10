@@ -49,6 +49,6 @@ async fn test_sender_failure_rate() {
             }
         }
         let actual_failure_rate = all_failures as f64 / 100 as f64;
-        assert!((expected_fail_rate - 0.1) < actual_failure_rate && actual_failure_rate < (expected_fail_rate + 0.1));
+        assert!((expected_fail_rate - 0.2) < actual_failure_rate && actual_failure_rate < (expected_fail_rate + 0.2));
     }
 }

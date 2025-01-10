@@ -70,6 +70,7 @@ impl SmsProducer {
     
         // Return an Alert struct with the results of this send
         Alert {
+            message: msg,
             send_amount_requested: num_to_send as i32,
             messages_sent: messages_sent as i32,
             messages_failed: messages_failed as i32,

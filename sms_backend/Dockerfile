@@ -1,22 +1,26 @@
 # Build stage
-FROM rust:latest as builder
+FROM rust:latest AS builder
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src/sms_backend
 
-# accept the build argument
-ARG DATABASE_URL
-
-ENV DATABASE_URL=$DATABASE_URL
-
+# Copy source code and the .env file
 COPY . .
-
-RUN cargo build --release
+RUN cargo install --path . --locked --profile release
 
 # Production stage
-FROM debian:buster-slim
+FROM debian:stable-slim
 
 WORKDIR /usr/local/bin
 
-COPY --from=builder /usr/src/app/target/release/sms_backend .
+# Install required dependencies
+RUN apt-get update && \
+    apt-get install -y openssl && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-CMD ["./sms_backend"]
+# Copy the compiled binary and the .env file
+COPY --from=builder /usr/local/cargo/bin/sms_backend /usr/local/bin/sms_backend
+COPY .env /usr/local/bin/.env
+
+# Run the application
+CMD ["sh", "-c", "sleep 5 && /usr/local/bin/sms_backend"]

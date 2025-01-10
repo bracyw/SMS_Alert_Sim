@@ -1,10 +1,10 @@
-import { urls } from './urls';
+import { urls } from './urls.utils';
 
 /**
  * Sends a request to update the sender pool used to send messages
  */
 export const postNewSenderPool = (body: NewSenderPoolBody): Promise<Response> => {
-  return fetch(urls.postNewSenderPool(), {
+  return fetch(urls.postNewSenderPoolURL(), {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

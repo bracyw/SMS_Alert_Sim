@@ -8,15 +8,19 @@ YOU MUST INSTALL sea-orm-cli to continue (also the other stuff but don't forget 
 
 ### Getting started
 
-Currently the best way to get started is by simply:  
-running the db (in docker),  
-`cd sms_backend; docker compose up sms_db`  
-run: `sea-orm-cli migrate up` if it's your first time  
-then the server,  
-`cd sms_backend; cargo run`  
+for getting the backend up fast run the below:
+BACKEND FAST OPTION:
+running the db (in docker),
+`cd sms_backend; docker compose up sms_db`
+then running the server (this will automatically apply migrations to the DB):
+`cd sms_backend; cargo run`
 
-then the frontend.  
-`cd sms_frontend; ng serve`  
+BACKEND FULL DOCKER OPTIION
+if you don't want to go through all those commands you can run:
+`cd sms_backend; docker compose up sms_db`
+
+then the frontend.
+`cd sms_frontend; ng serve`
 
 Then you will be able to go your localhost:4200 and play around with the minimal mvp.
 
@@ -40,11 +44,10 @@ all of this is `/sms_backend`:
  which lead to handlers to take in any paramaters / body from the requests in `src/handlers`, 
  
  those handlers also take in structures from `/structures`, 
- which are set up in main and past down through axums frame work to create the underlying state and functionality fo the backend. 
+ which are set up in main and past down through axums frame work to create the underlying state and functionality of the backend. 
  Main also passes down a database connection to our sea-orm managed postrgres database, which currently is only responsible for historical data, and could be used to setup authentication (authentication however is not implemented currently).
  
 ANYWAYS, those handlers call `/services` which handle most core logic (or junks of it) to a request, which themeselves rely on `/models` for database and frontend related types and `/utils` for miscalenoues  and shared logic among multiple different places.  
 
 all of this is in `/sms_frontend`: 
 While I'm less pleased with the frontend here we gooo... it's actually pretty simple right now. Written in Angular it allows for more html like development which I love (in comparison with React) and I believe Angular continous to head in the right direction.... ANYWAYS the important logic for our app starts at the api handlers / utils in `src/api` which which handle sending and receiving data from the backend. There is only one page the `sms-control-center` which houses our components for interacting with the backend... which utilize a few generic components snagged and slightly redone from the Argos app at Electric Racing. The "Sms control Center" allows for users to update what kind and how many senders the want to use (System config), send alerts out (alert managager), and monitor live progress, as well as display data from past sends that have finished.
-

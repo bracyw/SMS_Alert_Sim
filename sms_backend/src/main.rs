@@ -1,5 +1,6 @@
 use axum::Router;
 use dotenvy;
+use migration::{Migrator, MigratorTrait};
 use sea_orm::{Database, DatabaseConnection};
 use tokio::net::TcpListener;
 use tracing::info;
@@ -33,7 +34,9 @@ async fn main() {
     let database_url = std::env::var("DATABASE_URL").expect("DATABASE_URL not found in the env variables");
 
     // Connect to the database (should be running in docker)
-    let db: DatabaseConnection = Database::connect(database_url).await.unwrap();
+    let db: DatabaseConnection = Database::connect(database_url).await.expect("Could not connect to database");
+    Migrator::up(&db, None).await.expect("Failed to run migrations");
+
 
     // create TCP listener for our server address
     let listener = TcpListener::bind(server_address).await.expect("Could not create tcp listener");
@@ -54,7 +57,18 @@ async fn main() {
 
     // Create a basic user for the database with password and username (this is used to mock a user for the alert data)
     db_utils::seed_utils::seed_if_empty(&db).await.expect("Error seeding database");
-    
+
+    /*
+        if you want to allow clients to disconnect without cancelling the request 
+        (and hence stopping msg producing half way through a request... and NOT SAVING the alert data), see: 
+        https://stackoverflow.com/questions/78016785/is-an-axum-handler-cancelled-if-the-requester-disconnects
+
+        currently this is not implemented because it allows a client to esssentially cancel their request which is 
+        sort of nice for testing (arguable). Also there is probably more thought that needs to go into protection against losing
+        data in the middle of a request, or just restrictions / management of requests in general.
+     */
+
+
     // Create the application routes sea routes folder for more info on all routes
     let app: Router = Router::new()
         .nest("/system", routes::system_routes::system_routes(sender_service.clone())) // System-level sender service controls

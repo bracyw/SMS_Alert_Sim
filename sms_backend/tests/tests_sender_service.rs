@@ -31,7 +31,7 @@ async fn test_full_send_channel_multi_task() {
 #[tokio::test]
 async fn test_send_msg_adds_to_pm() {
     let pm = Arc::new(ProgressMonitor::new());
-    let senders = create_sim_senders(10.0, 100.0, 1.0, 1.0);
+    let senders = create_sim_senders(10.0, 100.0, 1.0, 0.0);
     let sender_service = SenderService::new(senders.unwrap(), pm.clone()).await;
     sender_service.send("abacabdaba".to_owned()).await;
     sender_service.send("abacabdaba".to_owned()).await;

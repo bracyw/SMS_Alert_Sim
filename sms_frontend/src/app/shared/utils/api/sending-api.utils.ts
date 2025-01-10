@@ -1,5 +1,5 @@
-import { SendCreateBody } from 'src/app/shared/types/api/send/send-create-body.type';
-import { urls } from './urls';
+import { SendCreateBody } from 'src/app/shared/utils/api/types/send/send-create-body.type';
+import { urls } from './urls.utils';
 
 /**
  * Sends a request to create messages with all configurations.
@@ -8,7 +8,7 @@ import { urls } from './urls';
  */
 export const postSendCreate = (body: SendCreateBody): Promise<Response> => {
   console.log('send requested with body: ' + JSON.stringify(body));
-  return fetch(urls.postSendCreate(), {
+  return fetch(urls.postSendCreateURL(), {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

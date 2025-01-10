@@ -1,0 +1,10 @@
+.historical-alert-card {
+    display: flex; 
+    flex-direction: row;
+    justify-content: space-between; 
+    height: 40px; 
+    padding: 10px;
+    min-width: 600px; 
+    border-radius: 2px;
+    background-color: #4d453c
+  }

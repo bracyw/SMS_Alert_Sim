@@ -1,11 +1,11 @@
 <info-background title="Progress Monitor">
   <form [formGroup]="progressForm" (ngSubmit)="submitForm()" class="form-container">
     <div class="form-group">
-      <label for="updates_every">Updates Every:</label>
+      <label for="updatesEvery">Updates Every:</label>
       <div class="input-seconds">
         <input
-          id="updates_every"
-          formControlName="updates_every"
+          id="updatesEvery"
+          formControlName="updatesEvery"
           placeholder="Time in seconds"
           type="number"
           step="0.1"
@@ -14,35 +14,17 @@
         <span class="seconds-symbol">sec</span>
       </div>
     </div>
-    <button class="submit-button" type="submit">save</button>
+    <button class="submit-button" type="submit" [disabled]="progressForm.invalid">save</button>
   </form>
 
   <hstack>
-    <vstack style="width: 50%; padding: 30px; min-width: 60px;">
-        <typography variant="info-value" [content]="progressData?.msgs_sent?.toString() || '—'" additionalStyles="fontSize: 20px"/>
-        <typography variant="info-subtitle" content="Messages Sent" />
-      </vstack>
-    
+      <captioned-value-component style="width: 50%; padding: 30px" caption="Messages Sent" [value]="progressData?.msgs_sent?.toString() || '–'" ></captioned-value-component>
       <divider style="height: 100px;" />
-    
-      <vstack style="width: 50%; padding: 30px; min-width: 60px;">
-        <typography variant="info-value" [content]="progressData?.msgs_failed?.toString() || '—'" additionalStyles="fontSize: 20px"/>
-        <typography variant="info-subtitle" content="Messages Failed" />
-      </vstack>
-    
+      <captioned-value-component style="width: 50%; padding: 30px" caption="Messages Failed" [value]="progressData?.msgs_failed?.toString() || '-'" ></captioned-value-component>
       <divider style="height: 100px;" />
-    
-      <vstack style="width: 50%; padding: 30px; min-width: 60px;">
-        <typography variant="info-value" [content]="getfailurePercent().toFixed(2).toString() + ' %'" additionalStyles="fontSize: 20px;"/>
-        <typography variant="info-subtitle" content="Failure Percent" />
-      </vstack>
-    
+      <captioned-value-component style="width: 50%; padding: 30px" caption="Failure Percent" [value]="getfailurePercent().toFixed(2)" [unit]="percentUnit" ></captioned-value-component>
       <divider style="height: 100px;" />
-    
-      <vstack style="width: 50%; padding: 30px; min-width: 60px;">
-        <typography variant="info-value" [content]="progressData?.avg_wait_time?.toString() || '—'" additionalStyles="fontSize: 20px"/>
-        <typography variant="info-subtitle" content="Avg. Wait Time" />
-      </vstack>
+      <captioned-value-component style="width: 50%; padding: 30px" caption="Avg. Wait Time" [value]="progressData?.avg_wait_time?.toString() || '–'" ></captioned-value-component>
   </hstack>
 
 </info-background>

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
-import { NewSenderPoolBody, postNewSenderPool } from 'src/api/system.api';
+import { NewSenderPoolBody, postNewSenderPool } from 'src/app/shared/utils/api/system-api.utils';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { InfoBackgroundComponent } from 'src/app/shared/components/info-background/info-background.component';
+import { ApiService } from 'src/app/shared/services/api.service';
 
 
 
@@ -28,47 +29,36 @@ export class SystemConfigComponent {
   constructor() {
     this.updateConfigForm = new FormGroup<UpdateConfigForm>({
       num_senders: new FormControl(100, {
-        validators: [Validators.required],
+        validators: [Validators.required, Validators.min(1)],
         nonNullable: true,
       }),
       failure_percent: new FormControl(50, {
-        validators: [Validators.required, CustomValidators.validatePercentage],
+        validators: [Validators.required, CustomValidators.validatePercentage()],
         nonNullable: true,
       }),
       avg_wait_time: new FormControl(1, {
-        validators: [Validators.required, CustomValidators.validateAboveZero],
+        validators: [Validators.required, Validators.min(0)],
         nonNullable: true,
       }),
       std_dev_wait_time: new FormControl(1, {
-        validators: [Validators.required, CustomValidators.validateAboveZero],
+        validators: [Validators.required, Validators.min(0)],
         nonNullable: true,
       }),
     });
   }
 
-  onSubmit() {
+  async onSubmit() {
     this.isSubmitting = true;
     if(this.updateConfigForm.valid) {
-      // Send request to update config
-      const body: NewSenderPoolBody = {
-        num_senders: this.updateConfigForm.controls.num_senders.value,
-        failure_percent: this.updateConfigForm.controls.failure_percent.value,
-        avg_send_time: this.updateConfigForm.controls.avg_wait_time.value,
-        std_dev: this.updateConfigForm.controls.std_dev_wait_time.value,
-      };
-      // Send request to update config with newSenderPool
-      postNewSenderPool(body).then((response) => {
-        if(response.ok) {
-          this.errors.message = "Successfully updated config";
-        } else {
-          this.errors.message = "Failed to update config";
-        }
-      }).finally(() => {
-        this.isSubmitting = false;
-      });
-    } else {
-      this.errors.message = "Form is invalid";
-      this.isSubmitting = false
-    }
+      const numSenders = this.updateConfigForm.controls.num_senders.value
+      const failurePercent = this.updateConfigForm.controls.failure_percent.value
+      const avgWaitTime = this.updateConfigForm.controls.avg_wait_time.value
+      const stdDev = this.updateConfigForm.controls.std_dev_wait_time.value
+
+      // currently we are not worried about alerting the user if the request fails
+      // the function will log an error in the console though
+      await ApiService.postUpdateSenderPool(numSenders, failurePercent, avgWaitTime, stdDev);
+    } 
+    this.isSubmitting = false
   }
 }

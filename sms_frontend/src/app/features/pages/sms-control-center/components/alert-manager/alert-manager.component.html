@@ -6,7 +6,7 @@
         <input
           id="opt_message"
           formControlName="opt_message"
-          placeholder="Optional Message"
+          placeholder="Random MSGS"
           type="text"
           class="form-control"
         />
@@ -25,7 +25,7 @@
     </fieldset>
 
     <div class="button-container">
-      <button class="submit-button" [disabled]="!sendStartReuestForm.valid" type="submit">
+      <button class="submit-button" [disabled]="sendStartReuestForm.invalid" type="submit">
         Submit
       </button>
     </div>

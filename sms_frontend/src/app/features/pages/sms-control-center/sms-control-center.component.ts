@@ -16,4 +16,6 @@ import { AlertHistoryComponent } from './components/alert-history/alert-history.
         TypographyComponent, VStackComponent, HStackComponent, 
         SystemConfigComponent, AlertHistoryComponent, AlertManagerComponent]
 })
+
+/** Used for displaying all control options for this sms alert simulator app  */
 export class SmsControlCenterComponent {}

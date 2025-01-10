@@ -18,6 +18,7 @@ pub async fn get_my_history(
         .map(|historical_alerts| Json(
             historical_alerts
                 .into_iter()
+                .rev()
                 .map(Alert::from) // Simplified function call for mapping.
                 .collect(),
         ))
@@ -35,7 +36,7 @@ pub async fn get_all_history(
     get_all_alert_data(db).await
         .map(|historical_alerts| Json(
             historical_alerts
-                .into_iter()
+                .into_iter().rev()
                 .map(Alert::from) // Simplified function call for mapping.
                 .collect(),
         ))

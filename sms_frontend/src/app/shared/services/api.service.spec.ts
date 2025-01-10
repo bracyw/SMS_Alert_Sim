@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ApiService } from './api.service';
-import { getProgressData } from 'src/api/progress.api';
-import { ProgressData } from '../types/api/recieve/progress-data.type';
+import { getProgressData } from 'src/app/shared/utils/api/progress-api.utils';
+import { ProgressData } from '../utils/api/types/recieve/progress-data.type';
 import { JsonPipe } from '@angular/common';
-import { SendCreateBody } from '../types/api/send/send-create-body.type';
-import { Alert } from '../types/api/recieve/alert.type';
+import { SendCreateBody } from '../utils/api/types/send/send-create-body.type';
+import { Alert } from '../utils/api/types/recieve/alert.type';
 
 describe('ApiService', () => {
   let service: ApiService;
@@ -166,7 +166,8 @@ describe('ApiService', () => {
       // error is irrelevant and should be tested elsewhere
     }
 
-    // Ensure fetch was called with the correct body
+    // Ensure fetch was called with the correct body 
+    // (actual url is up to api utils)
     expect(fetchSpy).toHaveBeenCalledWith(jasmine.any(String), {
       method: 'POST',
       headers: {
@@ -263,6 +264,44 @@ describe('ApiService', () => {
     );
 
     await expectAsync(ApiService.getAlertHistory()).toBeRejectedWithError("Error fetching alert history data");
+  });
+
+
+
+  /* POST UPDATE SENDER POOL TESTS */
+  it('post update sender pool works with correct input', async () => {
+    // Mock the global fetch API 
+    spyOn(globalThis, 'fetch').and.returnValue(
+      Promise.resolve(
+        new Response("irrelevant", {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        })
+      )
+    );
+
+    const response = await ApiService.postUpdateSenderPool(10, 100, 60, 2);
+    expect(response).toEqual(true);
+  });
+
+  it('post update sender pool fails with 0 senders input', async () => {
+    await expectAsync(ApiService.postUpdateSenderPool(0, 50, 60, 2)).toBeRejectedWithError("Invalid input values");
+  });
+
+  it('post update sender pool fails with negative failure percent input', async () => {
+    await expectAsync(ApiService.postUpdateSenderPool(10, -1, 60, 2)).toBeRejectedWithError("Invalid input values");
+  });
+
+  it('post update sender pool fails with failure percent above 100', async () => {
+    await expectAsync(ApiService.postUpdateSenderPool(10, 101, 60, 2)).toBeRejectedWithError("Invalid input values");
+  });
+
+  it('post update sender pool fails with negative avg wait time input', async () => {
+    await expectAsync(ApiService.postUpdateSenderPool(10, 50, -1, 2)).toBeRejectedWithError("Invalid input values");
+  });
+
+  it('post update sender pool fails with negative std dev input', async () => {
+    await expectAsync(ApiService.postUpdateSenderPool(10, 50, 60, -1)).toBeRejectedWithError("Invalid input values");
   });
 
 });

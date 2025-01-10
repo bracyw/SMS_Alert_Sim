@@ -5,8 +5,10 @@ import {
   FormControl,
   ReactiveFormsModule,
 } from "@angular/forms";
+import { from } from 'rxjs';
 import { InfoBackgroundComponent } from 'src/app/shared/components/info-background/info-background.component';
 import { ApiService } from 'src/app/shared/services/api.service';
+import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 
 /**
  * Interface for the send request form.
@@ -30,7 +32,6 @@ interface SendRequestForm {
  * Component for managing the broadcast of alerts.
  */ 
 export class AlertManagerComponent implements OnInit {
-  errors: { message: string } = { message: "" };
   isSubmitting = false;
   sendStartReuestForm: FormGroup<SendRequestForm>;
 
@@ -40,7 +41,7 @@ export class AlertManagerComponent implements OnInit {
         validators: [],
       }),
       num_messages_to_send: new FormControl(1000, {
-        validators: [Validators.required],
+        validators: [Validators.required, Validators.min(1)],
         nonNullable: true,
       })
     });
@@ -52,14 +53,20 @@ export class AlertManagerComponent implements OnInit {
    * 
    * @returns void
    */ 
-  submitForm(): void {
-    this.isSubmitting = true;
-
-    if (this.sendStartReuestForm.valid) {
-      ApiService.createAlert(this.submitForm.arguments.opt_message, this.submitForm.arguments.num_messages_to_send);
+  async submitForm(): Promise<void> {
+    if (this.sendStartReuestForm.invalid) {
+      // this should really never happen because we don't allow the user to click submit unless the form is valid
+      // hence the lack of error handling
       this.isSubmitting = false;
-    } else {
-      this.isSubmitting = false;
+      return;
     }
+  
+    const formInput = this.sendStartReuestForm.value;
+    const messageToSend = formInput.opt_message ?? null;
+    const numMessagesToSend = formInput.num_messages_to_send!;
+  
+    await ApiService.createAlert(messageToSend, numMessagesToSend!);
+    this.isSubmitting = false;
   }
+  
 }

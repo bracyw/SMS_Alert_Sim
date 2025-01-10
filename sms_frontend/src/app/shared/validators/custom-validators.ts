@@ -7,20 +7,10 @@ export class CustomValidators {
       if (value < 0) {
         return { negativeFailurePercentage: { value } };
       }
-      if (value > 1) {
+      if (value > 100) {
         return { excessiveFailurePercentage: { value } };
       }
       return null;
     };
-  }
-
-  static validateAboveZero(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const value = control.value;
-      if (value < 0) {
-        return { invalidSendTimeMean: { value } };
-      }
-      return null;
-    };
-  }
+  }  
 }

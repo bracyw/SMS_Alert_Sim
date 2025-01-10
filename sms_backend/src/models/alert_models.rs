@@ -3,6 +3,7 @@
 /// snake case must be used in clients to match the json response (simply easier to read)
 #[derive(serde::Serialize)]
 pub struct Alert {
+    pub message: Option<String>,
     pub send_amount_requested: i32,
     pub messages_sent: i32,
     pub messages_failed: i32,
@@ -14,6 +15,7 @@ pub struct Alert {
 impl From<entity::alert::Model> for Alert {
     fn from(alert_entity: entity::alert::Model) -> Alert {
         Alert {
+            message: alert_entity.message,
             send_amount_requested: alert_entity.send_amount_requested,
             messages_sent: alert_entity.messages_sent,
             messages_failed: alert_entity.messages_failed,

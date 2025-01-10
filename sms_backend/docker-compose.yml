@@ -5,12 +5,15 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
-      args:
-        DATABASE_URL: postgres://postgres:password@sms_db:5432/sms_db
+    environment:
+      DATABASE_URL: postgres://postgres:password@sms_db:5432/sms_db
+      RUST_BACKTRACE: 1
+      SERVER_ADDRESS: "0.0.0.0:4201"  # Bind to all interfaces on port 4201
     ports:
-      - "8000:8000"
+      - "4201:4201"
     depends_on:
       - sms_db
+
   sms_db:
     container_name: sms_db
     image: postgres:latest
@@ -22,7 +25,6 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-
 
 volumes:
   pgdata: {}

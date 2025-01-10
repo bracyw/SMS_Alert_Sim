@@ -1,0 +1,21 @@
+<div class="historical-alert-card">
+    <typography
+    variant="info-subtitle"
+    [content]="'failure rate: ' + getFailureRate().toFixed(2).toString() + '%'"
+    style="align-self: center" />
+    <vstack>
+        <typography
+            variant="info-subtitle"
+            [content]="'message sent: ' + (alert.message ? alert.message : 'RANDOM')"
+            additionalStyles="font-weight: bold;"
+            style="align-self: center; padding-left: 5px" 
+        />
+        <typography
+            variant="info-subtitle"
+            [content]="'send amount request: ' + alert.send_amount_requested.toString()"
+            additionalStyles="font-weight: bold;"
+            style="align-self: center; padding-left: 5px" 
+        />
+    </vstack>
+    <typography variant="info-subtitle" [content]="'total time to send:  ' + alert.total_time_to_send.toString()" style="align-self: center" />
+</div>
