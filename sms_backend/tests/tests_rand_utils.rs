@@ -21,7 +21,4 @@ async fn test_create_random_number() {
 
     // Assert that the number is positive (because abs is used)
     assert!(random_number >= 0.0);
-
-    // Optional: Log the generated number for visual inspection
-    println!("Generated random number: {}", random_number);
 }

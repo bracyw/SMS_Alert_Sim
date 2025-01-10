@@ -2,6 +2,7 @@ use std::sync::atomic::AtomicBool;
 use std::sync::Arc;
 use std::time::SystemTime;
 use tokio::sync::{mpsc, oneshot};
+use tracing::debug;
 use super::progress_monitor::ProgressMonitor;
 use super::sender::SimSender;
 
@@ -108,7 +109,6 @@ impl SenderService {
                         }
 
                         // PROCESS REQUEST
-                        // Send a message to the broker to shut down
                         (sender_pool_tx, sender_pool_rx) = mpsc::channel::<SimSender>(new_pool_request.new_senders.len());
                         
                         for ss in new_pool_request.new_senders {
@@ -160,7 +160,6 @@ impl SenderService {
                 .duration_since(send_time)
                 .unwrap()
                 .as_secs();
-            // println!("thought it took: {:?}", elapsed_secs);
 
             if send_result {
                 pm.add_message_sent(elapsed_secs);
@@ -172,7 +171,7 @@ impl SenderService {
 
             // Return sender to the pool so someone else can use it
             if let Err(e) = sender_pool_tx.send(sender).await {
-                eprintln!("Failed to return sender to pool: {:?}", e);
+                debug!("Failed to return sender to pool: {:?}", e);
             }
         
             }});
@@ -195,7 +194,7 @@ impl SenderService {
         // Send request to the broker
         if self.actions_tx.send(send_msg_request).await.is_err() {
             // broker task has gone away
-            eprintln!("Action request channel in SenderService has broken");
+            debug!("Action request channel in SenderService has broken");
             return false;
         }
 
@@ -203,7 +202,7 @@ impl SenderService {
         match reply_rx.await {
             Ok(success) => success,
             Err(_) => {
-                eprintln!("Broker dropped the reply half?!");
+                debug!("Broker dropped the reply half?!");
                 false
             }
         }
@@ -242,7 +241,7 @@ impl SenderService {
         match reply_rx.await {
             Ok(_) => true,
             Err(_) => {
-                eprintln!("Broker dropped the reply half?!");
+                debug!("Broker dropped the reply half?!");
                 false
             }
         }

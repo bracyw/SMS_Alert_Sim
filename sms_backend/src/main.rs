@@ -24,7 +24,7 @@ async fn main() {
 
     // Initialize tracing (for debugging and logging info)
     tracing_subscriber::fmt()
-        .with_max_level(tracing::Level::TRACE)
+        .with_max_level(tracing::Level::DEBUG)
         .init();
 
 
@@ -64,12 +64,12 @@ async fn main() {
         https://stackoverflow.com/questions/78016785/is-an-axum-handler-cancelled-if-the-requester-disconnects
 
         currently this is not implemented because it allows a client to esssentially cancel their request which is 
-        sort of nice for testing (arguable). Also there is probably more thought that needs to go into protection against losing
+        sort of nice for testing, and demonstrations (arguable). Also there is probably more thought that needs to go into protection against losing
         data in the middle of a request, or just restrictions / management of requests in general.
      */
 
 
-    // Create the application routes sea routes folder for more info on all routes
+    // Create the application routes see routes folder for more info on all routes
     let app: Router = Router::new()
         .nest("/system", routes::system_routes::system_routes(sender_service.clone())) // System-level sender service controls
         .nest("/alert", routes::alert_routes::alert_routes(sender_service.clone())) // User-facing alert actions

@@ -11,7 +11,7 @@ import { Unit } from 'src/app/shared/utils/enums/unit.enum';
 
 
 @Component({
-  selector: 'app-progress-monitor',
+  selector: 'progress-monitor',
   imports: [
     InfoBackgroundComponent,
     HStackComponent,

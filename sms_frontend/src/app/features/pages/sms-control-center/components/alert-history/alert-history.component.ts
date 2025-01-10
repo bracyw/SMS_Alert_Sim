@@ -9,7 +9,7 @@ import { HistoricalAlertCardComponent } from './components/historical-alert-card
 
 
 @Component({
-  selector: 'app-alert-history',
+  selector: 'alert-history',
   imports: [VStackComponent, InfoBackgroundComponent, HistoricalAlertCardComponent],
   templateUrl: './alert-history.component.html',
   styleUrl: './alert-history.component.css',
