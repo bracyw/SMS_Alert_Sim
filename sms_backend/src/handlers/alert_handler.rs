@@ -7,7 +7,7 @@ use serde::Deserialize;
 use sea_orm::ActiveValue;
 use crate::models::alert_models::Alert;
 use crate::services::alert_services;
-use crate::structures::sender_service::SenderService;
+use crate::structures::sender_service::{self, SenderService};
 use tracing::debug;
 
 
@@ -39,8 +39,9 @@ pub async fn send_alert(
 ) -> Result<Json<Alert>, axum::response::Response> {
     debug!("Sending alert with message: {}", params.msg.clone().unwrap_or_else(|| "No message provided sending random".to_owned()));
     
+    let sender_service_clone = sender_service.clone();
     // Send the messages and get the stats back from that alert
-    let send_stats = alert_services::send_msgs(params.msg.clone(), params.num_msgs as u64, sender_service).await;
+    let send_stats = alert_services::send_msgs(params.msg.clone(), params.num_msgs as u64, sender_service_clone).await;
 
     // Convert to a database entity (could be abstracted if there is larger use of models in the future)
     let alert_entity = entity::alert::ActiveModel {
@@ -53,6 +54,10 @@ pub async fn send_alert(
         ..Default::default()
     };
     debug!("Alert entity created: {:?}", alert_entity);
+
+
+    let progress_monitor = sender_service.get_progress_monitor();
+    debug!("progress wait time: {:?}", progress_monitor.get_avg_wait_time());
 
 
     // Insert the alert into the database

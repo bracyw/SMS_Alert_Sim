@@ -52,7 +52,7 @@ async fn main() {
 
     // Create the sender service and progress monitor to be used throughout the lifetime of the application
     let pm = Arc::new(ProgressMonitor::new());
-    let sender_service = Arc::new(create_sender_service(100, 1, 1.0, 1.0, pm.clone()).await.expect("Error creating sender service"));
+    let sender_service = Arc::new(create_sender_service(100, 1, 1.0, pm.clone()).await.expect("Error creating sender service"));
 
 
     // Create a basic user for the database with password and username (this is used to mock a user for the alert data)

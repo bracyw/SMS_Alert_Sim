@@ -1,6 +1,6 @@
 use std::sync::atomic::AtomicBool;
 use std::sync::Arc;
-use std::time::SystemTime;
+use std::time::Instant;
 use tokio::sync::{mpsc, oneshot};
 use tracing::debug;
 use super::progress_monitor::ProgressMonitor;
@@ -154,13 +154,10 @@ impl SenderService {
         if let Some(sender) = sender_pool_rx.recv().await {
             // Spawn a task to send the message
             tokio::spawn({ async move {
-            let send_time = SystemTime::now();
+            let send_time = Instant::now();
             let send_result = sender.send(action.msg).await;
-            let elapsed_secs = SystemTime::now()
-                .duration_since(send_time)
-                .unwrap()
-                .as_secs();
-
+            let elapsed_secs = Instant::now()
+                .duration_since(send_time).as_secs();
             if send_result {
                 pm.add_message_sent(elapsed_secs);
                 let _ = action.reply.send(true);

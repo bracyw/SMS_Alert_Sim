@@ -1,4 +1,4 @@
-use sms_backend::utils::sms_utils::rand_utils::{create_random_number, create_random_string};
+use sms_backend::utils::sms_utils::rand_utils::{create_random_pos_number, create_random_string};
 
 #[tokio::test]
 async fn test_create_random_string() {
@@ -15,10 +15,16 @@ async fn test_create_random_string() {
 
 #[tokio::test]
 async fn test_create_random_number() {
-    let mean = 5.0;
-    let std_dev = 2.0;
-    let random_number = create_random_number(mean, std_dev);
+    let mean = 1.0;
+    let mut random_number;
+    let mut avg = 0.0;
+    let total_num_gen  = 10000;
+    for _n in 0..total_num_gen {
+        random_number = create_random_pos_number(mean);
+        println!("random number: {:?}", random_number);
+        avg += random_number;
+    }
 
-    // Assert that the number is positive (because abs is used)
-    assert!(random_number >= 0.0);
+    avg = avg / total_num_gen as f32;
+    assert!(avg <= (mean + 0.5) && avg >= (mean - 0.5), "test that the avg of all random numbers generated is within an expectable range for a large sample");
 }

@@ -68,7 +68,8 @@ export class ProgressMonitorComponent implements OnInit {
     }
     this.intervalId = setInterval(async () => {
       this.progressData = await ApiService.pollProgress();
-    }, this.updatedEvery * 1000);
+      console.log(this.progressData);
+    }, this.updatedEvery * 1000); 
   }
 
   /**

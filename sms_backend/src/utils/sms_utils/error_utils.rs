@@ -6,9 +6,6 @@ pub enum SenderValidationError {
     #[error("Send time mean was less than zero, got {0}")]
     InvalidSendTimeMean(f32),
 
-    #[error("Send time std deviation was less than zero, got {0}")]
-    InvalidSendStd(f32),
-
     #[error("Failure percentage cannot be negative, got {0}")]
     NegativeFailurePercentage(f64),
 
@@ -19,12 +16,9 @@ pub enum SenderValidationError {
 
 impl SenderValidationError {
     /// Validate the given parameters and return an error if any condition is violated.
-    pub fn validate(failure_percentage: f64, send_time_mean: f32, send_std: f32) -> Result<(), Self> {
+    pub fn validate(failure_percentage: f64, send_time_mean: f32) -> Result<(), Self> {
         if send_time_mean < 0.0 {
             return Err(Self::InvalidSendTimeMean(send_time_mean));
-        }
-        if send_std < 0.0 {
-            return Err(Self::InvalidSendStd(send_std));
         }
         if failure_percentage < 0.0 {
             return Err(Self::NegativeFailurePercentage(failure_percentage));

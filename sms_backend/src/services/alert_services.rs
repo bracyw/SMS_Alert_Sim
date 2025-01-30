@@ -9,11 +9,10 @@ use crate::utils::sms_utils::error_utils::SenderValidationError;
 /// * `num_senders` - The number of senders to create (no limit)
 /// * `failure_percent` - The percentage of messages that will fail to send (0-100)
 /// * `avg_send_time` - The average time it takes to send a message in seconds
-/// * `std_dev` - The standard deviation of the send time in seconds
 /// 
 /// Returns: Either a `SenderService` with senders that have the given attributes above or a `SenderValidationError` if the inputs are invalid
-pub fn create_sim_senders(num_senders: f64, failure_percent: f64, avg_send_time: f32, std_dev: f32) -> Result<Vec<SimSender>, SenderValidationError> {
-    sms_utils::sender_utils::create_sim_senders(num_senders as u64, failure_percent as u64, avg_send_time, std_dev)
+pub fn create_sim_senders(num_senders: f64, failure_percent: f64, avg_send_time: f32) -> Result<Vec<SimSender>, SenderValidationError> {
+    sms_utils::sender_utils::create_sim_senders(num_senders as u64, failure_percent as u64, avg_send_time)
 }
 
 

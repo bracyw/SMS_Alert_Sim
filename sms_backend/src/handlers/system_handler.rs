@@ -13,7 +13,6 @@ pub struct NewSenderPoolParams {
     pub num_senders: f64,
     pub failure_percent: f64,
     pub avg_send_time: f64,
-    pub std_dev: f64,
 }
 
 #[axum::debug_handler]
@@ -28,14 +27,13 @@ pub async fn change_sender_pool(
     Extension(sender_service): Extension<Arc<SenderService>>,
     Json(params): Json<NewSenderPoolParams>,
 ) -> Result<Json<bool>, axum::response::Response> {
-    debug!("Creating sender pool with attributes: num_senders: {}, failure_percent: {}, avg_send_time: {}, std_dev: {}", params.num_senders, params.failure_percent, params.avg_send_time, params.std_dev);
+    debug!("Creating sender pool with attributes: num_senders: {}, failure_percent: {}, avg_send_time: {}", params.num_senders, params.failure_percent, params.avg_send_time);
    
     // Example creation of a new service (adjust parameters as needed)
     let posible_senders = alert_services::create_sim_senders(
         params.num_senders,
         params.failure_percent,
         params.avg_send_time as f32,
-        params.std_dev as f32,
     );
    
 

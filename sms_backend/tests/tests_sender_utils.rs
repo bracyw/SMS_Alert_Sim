@@ -9,14 +9,14 @@ async fn test_create_sim_senders_success() {
     let avg_send_time = 2.0;
     let std_dev = 1.0;
 
-    let senders = create_sim_senders(num_senders, failure_percent, avg_send_time, std_dev);
+    let senders = create_sim_senders(num_senders, failure_percent, avg_send_time);
     assert!(senders.is_ok());
     assert_eq!(senders.unwrap().len(), num_senders as usize);
 }
 
 #[tokio::test]
 async fn test_create_sim_senders_invalid_input() {
-    let result = create_sim_senders(5, 10, -2.0, 1.0);
+    let result = create_sim_senders(5, 10, -2.0);
     assert!(matches!(result, Err(SenderValidationError::InvalidSendTimeMean(-2.0))));
 }
 
@@ -28,13 +28,13 @@ async fn test_create_sender_service_success() {
     let avg_send_time = 1.5;
     let std_dev = 0.5;
 
-    let service = create_sender_service(num_senders, failure_percent, avg_send_time, std_dev, pm.clone()).await;
+    let service = create_sender_service(num_senders, failure_percent, avg_send_time, pm.clone()).await;
     assert!(service.is_ok());
 }
 
 #[tokio::test]
 async fn test_create_sender_service_invalid_input() {
     let pm = Arc::new(ProgressMonitor::new());
-    let result = create_sender_service(3, 20, -1.0, 0.5, pm.clone()).await;
+    let result = create_sender_service(3, 20, -1.0, pm.clone()).await;
     assert!(matches!(result, Err(SenderValidationError::InvalidSendTimeMean(-1.0))));
 }

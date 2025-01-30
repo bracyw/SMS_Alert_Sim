@@ -7,7 +7,7 @@ use sms_backend::structures::sender::SimSender;
 #[tokio::test]
 async fn test_single_sender_send() {
     // notice failure is now 0 ... 1 not 1 ... 100
-    let sender = SimSender::new(4.0, 0.0, 1.0);
+    let sender = SimSender::new(4.0, 0.0);
 
     let start_time = Instant::now();
     let result = sender.send("Hello world".to_owned()).await;
@@ -18,7 +18,7 @@ async fn test_single_sender_send() {
 
 #[tokio::test]
 async fn test_no_multi_send() {
-    let sender = SimSender::new(1.0, 0.0, 1.0);
+    let sender = SimSender::new(1.0, 0.0);
     let mut task_handle = Vec::new();
 
     let sender_clone = sender.clone();
@@ -43,7 +43,7 @@ async fn test_sender_failure_rate() {
         let expected_fail_rate = rng.gen_range(0.0..1.0);
         let mut all_failures = 0;
         for _ in 0..100 {
-            let sender = SimSender::new(0.0, 0.0, expected_fail_rate);
+            let sender = SimSender::new(0.0,  expected_fail_rate);
             if !sender.send("bruh".to_owned()).await {
                 all_failures += 1;
             }

@@ -2,7 +2,7 @@ use std::{sync::{atomic::AtomicBool, Arc}, time::Duration};
 use uuid::Uuid;
 use rand::Rng;
 
-use crate::utils::sms_utils::rand_utils::create_random_number;
+use crate::utils::sms_utils::rand_utils::create_random_pos_number;
 
 /// A simulated sms message sender with a configurable average wait time to send a message, and sending failure percentage. 
 /// 
@@ -15,7 +15,6 @@ use crate::utils::sms_utils::rand_utils::create_random_number;
 pub struct SimSender {
     id: String, // id's are unique 
     send_time_mean: f32, // zero can be used if implementing actual sending
-    send_time_std: f32,
     failure_percentage: f64, // percentage as a decimal
     currently_sending: Arc<AtomicBool>
 }
@@ -29,7 +28,7 @@ impl SimSender {
     /// 
     /// * `send_time_mean` - the average time in SECONDS it will take to simulate a message, with a standard deviation of 5 seconds.
     /// * `failure_percent` - the percentage chance as a DECIMAL, that a message will fail to send.
-    pub fn new(send_time_mean: f32, send_time_std: f32, failure_percentage: f64) -> SimSender {
+    pub fn new(send_time_mean: f32, failure_percentage: f64) -> SimSender {
         assert!(send_time_mean >= 0 as f32);
         assert!(failure_percentage >= 0 as f64, "percentage for a `Sender` was negative");
         assert!(failure_percentage <= 100 as f64, "percentage for a `Sender` was above 100%, must be represented as a decimal btwn 0 and 1.0");
@@ -37,7 +36,6 @@ impl SimSender {
         SimSender {
             id: Uuid::new_v4().to_string(),
             send_time_mean,
-            send_time_std,
             failure_percentage,
             currently_sending: Arc::new(AtomicBool::new(false))
         }
@@ -65,7 +63,7 @@ impl SimSender {
         self.currently_sending.fetch_or(true, std::sync::atomic::Ordering::Relaxed);
 
         // set up and calc wait time
-        let wait_time = create_random_number(self.send_time_mean, self.send_time_std);
+        let wait_time = create_random_pos_number(self.send_time_mean);
 
         // sleep the given amount of time
         tokio::time::sleep(Duration::from_secs_f32(wait_time)).await;
