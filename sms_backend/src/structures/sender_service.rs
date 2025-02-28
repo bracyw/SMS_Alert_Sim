@@ -68,7 +68,7 @@ impl SenderService {
 
         // This channel keeps track of the actions that need to be performed by the by the task loop.
         // capacity is hard coded to 1000, however, this could be changed to a more dynamic value if needed.
-        let (actions_tx, mut actions_rx) = mpsc::channel::<SenderServiceAction>(1000);
+        let (actions_tx, mut actions_rx) = mpsc::channel::<SenderServiceAction>(50000);
 
         let pm_clone = pm.clone();
  
