@@ -131,7 +131,5 @@ It has 4 components, all of which can be found in:
    - The Alert History component is possible because of our database.  
    - It allows for historical queries of specific blocks (alerts) instead of large swathes of data.  
 
----
-
 #### Shared Components:
 Shared components, services, utilities, and validators are located in the `/shared` directory.
