@@ -133,5 +133,5 @@ It has 4 components, all of which can be found in:
 
 ---
 
-### Shared Components:
+#### Shared Components:
 Shared components, services, utilities, and validators are located in the `/shared` directory.
